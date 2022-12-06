@@ -23,6 +23,7 @@ function Login() {
       .post('http://localhost:8000/login', loginData)
       .then((res) => {
         localStorage.setItem('TOKEN', res.data.token);
+        localStorage.removeItem('ADMIN');
         console.log(res.data.token);
         history.push('/');
       })

@@ -1,28 +1,69 @@
-import React from 'react';
-
+import React, { useEffect, useState } from 'react';
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
 import './Header.css';
 import OlxLogo from '../../assets/OlxLogo';
 import Search from '../../assets/Search';
 import Arrow from '../../assets/Arrow';
 import SellButton from '../../assets/SellButton';
 import SellButtonPlus from '../../assets/SellButtonPlus';
+import axios from 'axios';
+import { Stack, Typography } from '@mui/material';
+import { Link, useHistory } from 'react-router-dom';
+
 function Header() {
   const token = localStorage.getItem('TOKEN');
   // console.log(token);
   const logoutToken = () => {
     localStorage.removeItem('TOKEN');
+    localStorage.removeItem('ADMIN');
   };
+  const history = useHistory();
+
+  const [newProduct, setNewProduct] = useState([]);
+  const [newItem, setNewItem] = useState([]);
+
+  const getdata = async () => {
+    await axios.get('http://localhost:8000/getdata').then((res) => {
+      const secondData = res.data.newData;
+      setNewProduct(secondData);
+    });
+  };
+  useEffect(() => {
+    getdata();
+  }, []);
+
   return (
     <div className="headerParentDiv">
       <div className="headerChildDiv">
         <div className="brandName">
-          <OlxLogo></OlxLogo>
+          <a href="/admin/login">
+            <Typography
+              style={{ color: 'black', fontWeight: 'bolder', fontSize: 20 }}
+            >
+              SaLeCarT
+            </Typography>
+          </a>
         </div>
-        <div className="placeSearch">
-          <Search></Search>
-          <input type="text" />
-          <Arrow></Arrow>
-        </div>
+
+        <Stack sx={{ width: 300 }}>
+          <Autocomplete
+            freeSolo
+            id="free-solo-2-demo"
+            disableClearable
+            options={newProduct.map((option) => option.item)}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Search input"
+                InputProps={{
+                  ...params.InputProps,
+                  type: 'search',
+                }}
+              />
+            )}
+          />
+        </Stack>
         <div className="productSearch">
           <div className="input">
             <input

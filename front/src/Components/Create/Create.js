@@ -83,14 +83,15 @@ const Create = () => {
             <br />
           </form>
           <br />
-          <img
-            alt="posts"
-            width="200px"
-            height="200px"
-            src=""
-            onChange={(e) => setImage(e.target.files[0])}
-          ></img>
+
           <form encType="multipart/form-data">
+            {/* <img
+              alt="posts"
+              width="200px"
+              height="200px"
+              src=""
+              onChange={(e) => setImage(e.target.files[0])}
+            ></img> */}
             <input type="file" onChange={handleChange} />
             <br />
             <button onClick={onFormSubmit} className="uploadBtn">
