@@ -7,6 +7,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import {
   Box,
   Button,
+  Grid,
   MenuItem,
   Modal,
   Stack,
@@ -16,6 +17,7 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useHistory } from 'react-router-dom';
 import './View.css';
+import { border } from '@mui/system';
 
 const style = {
   position: 'absolute',
@@ -60,13 +62,13 @@ function View() {
   const history = useHistory();
 
   const { id } = useParams('');
-  console.log(id);
   const getProduct = async () => {
     await axios
       .get(`http://localhost:8000/getproduct/${id}`)
       .then((response) => {
         const itemdata = response.data;
         setSingleData(itemdata);
+        console.log(itemdata);
       })
       .catch((err) => {
         console.log(err);
@@ -138,71 +140,186 @@ function View() {
           ) : (
             ''
           )}
-          <div className="productDetails">
-            <p> {singleData.item} </p>
-            <span>&#x20B9; {singleData.price}</span>
-            <p>{singleData.category}</p>
-            <span>{singleData.createdAt}</span>
-          </div>
-          <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
-            <Box sx={style}>
-              <Stack direction="column" gap={2}>
-                <Typography id="modal-modal-title" variant="h5" component="h2">
+          <Grid container direction="column" bgcolor="" padding="30px" gap={5}>
+            <Grid
+              sx={{
+                backgroundColor: '',
+                border: 2,
+                padding: 1,
+                boxShadow: 10,
+                // width: '80%',
+              }}
+            >
+              <Grid>
+                <Typography
+                  variant="h5"
+                  sx={{
+                    fontSize: 25,
+                    fontFamily: 'bolder',
+                    // margin: 'auto',
+                    textAlign: 'center',
+                    border: 2,
+                    marginTop: '-10px',
+                    marginLeft: '-10px',
+                    marginRight: '-10px',
+                  }}
+                >
                   Product Detials
                 </Typography>
-                <TextField
-                  fullWidth
-                  id="outlined-name"
-                  label="Product Name"
-                  defaultValue={singleData.item}
-                  onChange={(e) => setItem(e.target.value)}
-                />
-                <TextField
-                  id="outlined-select-currency"
-                  select
-                  label="Select"
-                  defaultValue={singleData.category}
-                  onChange={(e) => setCategory(e.target.value)}
-                  helperText="Please select your currency"
+              </Grid>
+              <Grid marginTop="4px">
+                <Typography
+                  sx={{
+                    fontSize: 20,
+                    fontFamily: 'bolder',
+                    margin: 'auto',
+                    textAlign: 'center',
+                  }}
                 >
-                  {categories.map((option, index) => (
-                    <MenuItem
-                      key={option.value}
-                      index={singleData._id}
-                      value={option.value}
-                    >
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </TextField>
-                <TextField
-                  id="outlined-uncontrolled"
-                  label="Uncontrolled"
-                  defaultValue={singleData.price}
-                  onChange={(e) => setPrice(e.target.value)}
-                />
-                <input type="file" onChange={handleChange} />
+                  {singleData.item}
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: 20,
+                    fontFamily: 'bold',
+                    margin: 'auto',
+                    textAlign: 'center',
+                  }}
+                >
+                  {singleData.category}
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: 20,
+                    fontFamily: 'bold',
+                    margin: 'auto',
+                    textAlign: 'center',
+                  }}
+                >
+                  &#x20B9;{singleData.price}
+                </Typography>
+              </Grid>
+            </Grid>
 
-                <Button
-                  variant="contained"
-                  component="label"
-                  onClick={updateproduct}
+            <Modal
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Box sx={style}>
+                <Stack direction="column" gap={2}>
+                  <Typography
+                    id="modal-modal-title"
+                    variant="h5"
+                    component="h2"
+                  >
+                    Product Detials
+                  </Typography>
+                  <TextField
+                    fullWidth
+                    id="outlined-name"
+                    label="Product Name"
+                    defaultValue={singleData.item}
+                    onChange={(e) => setItem(e.target.value)}
+                  />
+                  <TextField
+                    id="outlined-select-currency"
+                    select
+                    label="Select"
+                    defaultValue={singleData.category}
+                    onChange={(e) => setCategory(e.target.value)}
+                    helperText="Please select your currency"
+                  >
+                    {categories.map((option, index) => (
+                      <MenuItem
+                        key={option.value}
+                        index={singleData._id}
+                        value={option.value}
+                      >
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                  <TextField
+                    id="outlined-uncontrolled"
+                    label="Uncontrolled"
+                    defaultValue={singleData.price}
+                    onChange={(e) => setPrice(e.target.value)}
+                  />
+                  <input type="file" onChange={handleChange} />
+
+                  <Button
+                    variant="contained"
+                    component="label"
+                    onClick={updateproduct}
+                  >
+                    Submit
+                  </Button>
+                </Stack>
+              </Box>
+            </Modal>
+
+            <Grid
+              sx={{
+                backgroundColor: '',
+                border: 2,
+                padding: 1,
+                boxShadow: 10,
+                // width: '80%',
+              }}
+            >
+              <Grid>
+                <Typography
+                  variant="h5"
+                  sx={{
+                    fontSize: 25,
+                    fontFamily: 'bolder',
+                    // margin: 'auto',
+                    textAlign: 'center',
+                    border: 2,
+                    marginTop: '-10px',
+                    marginLeft: '-10px',
+                    marginRight: '-10px',
+                  }}
                 >
-                  Submit
-                </Button>
-              </Stack>
-            </Box>
-          </Modal>
-          <div className="contactDetails">
-            <p>Seller details</p>
-            <p>No name</p>
-            <p>1234567890</p>
-          </div>
+                  Seller Detials
+                </Typography>
+              </Grid>
+              <Grid marginTop="4px">
+                <Typography
+                  sx={{
+                    fontSize: 20,
+                    fontFamily: 'bold',
+                    margin: 'auto',
+                    textAlign: 'center',
+                  }}
+                >
+                  Name : {singleData.name}
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: 20,
+                    fontFamily: 'bold',
+                    margin: 'auto',
+                    textAlign: 'center',
+                  }}
+                >
+                  Mobile : {singleData.phone}
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: 20,
+                    fontFamily: 'bold',
+                    margin: 'auto',
+                    textAlign: 'center',
+                  }}
+                >
+                  Email : {singleData.email}
+                </Typography>
+              </Grid>
+            </Grid>
+          </Grid>
         </div>
       </div>
     </div>

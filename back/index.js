@@ -4,9 +4,9 @@ import cors from 'cors';
 import Connections from './db/db.js';
 import userSchema from './model/mongoschema.js';
 import ProductSchema from './model/ProductSchema.js';
+import AdminSchema from './model/AdminSchema.js';
 import jsonwebtoken from 'jsonwebtoken';
 import fileUpload from 'express-fileupload';
-import path from 'path';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -21,6 +21,7 @@ const db = Connections();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
 app.post('/signup', async (req, res) => {
   console.log(req.body);
   try {
@@ -48,6 +49,7 @@ app.post('/login', async (req, res) => {
     return res.status(201).json({
       status: 'ok',
       user: true,
+      user,
       message: 'successfully logined',
       token,
     });
@@ -70,6 +72,9 @@ app.post('/product', (req, res) => {
       price: req.body.price,
       category: req.body.category,
       item: req.body.item,
+      name: req.body.userName,
+      phone: req.body.phone,
+      email: req.body.email,
     });
     saveImage.save().then((res) => {});
     if (!req.files) {
@@ -107,16 +112,93 @@ app.get('/getdata', async (req, res) => {
 
 app.get('/getproduct/:id', async (req, res) => {
   try {
-    console.log(req.params);
+    // console.log(req.params);
     const { id } = req.params;
 
     const singleItem = await ProductSchema.findById({
       _id: id,
     });
-    console.log(singleItem);
+    // console.log(singleItem);
     res.status(201).json(singleItem);
   } catch (err) {
     console.log(err);
+  }
+});
+
+app.post('/admin/register', async (req, res) => {
+  console.log(req.body);
+  try {
+    await AdminSchema.create({
+      userName: req.body.userName,
+      email: req.body.email,
+      phone: req.body.phone,
+      password: req.body.password,
+    });
+
+    res.json({ status: 'ok' });
+  } catch (error) {
+    res.json({ status: error });
+  }
+});
+
+app.post('/admin/login', async (req, res) => {
+  console.log(req.body);
+  const admin = await AdminSchema.findOne({
+    email: req.body.email,
+    password: req.body.password,
+  });
+  const adminToken = jsonwebtoken.sign({}, '123');
+  if (admin) {
+    return res.status(201).json({
+      status: 'ok',
+      admin: true,
+      message: 'successfully logined',
+      adminToken,
+    });
+  } else {
+    return res.status(401).json({
+      status: 'error',
+      user: false,
+      message: 'user or password incorrect',
+    });
+  }
+});
+
+app.delete('/deleteproduct/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deleteProduct = await ProductSchema.findByIdAndDelete(id, req.body);
+    console.log('deleted user');
+    res.status(201).json(deleteProduct);
+  } catch (error) {
+    console.log(error);
+  }
+});
+app.patch('/updateproduct/:id', async (req, res) => {
+  const { id } = req.params;
+  console.log(req.files);
+
+  try {
+    const updateproduct = await ProductSchema.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
+    try {
+      const myFile = req.files.image;
+      const myFiles = id;
+      const name = '.jpg';
+      const path = __dirname + '/../front/public/Images/' + myFiles + name;
+
+      myFile.mv(path, function (err) {
+        if (err) {
+          console.log(err);
+          return res.status(500).send({ msg: 'error occured' });
+        }
+      });
+    } catch (error) {}
+    console.log(updateproduct), res.status(201).json(updateproduct);
+  } catch (error) {
+    console.log(error);
   }
 });
 

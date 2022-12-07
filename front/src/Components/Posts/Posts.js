@@ -16,9 +16,6 @@ import './Post.css';
 
 function Posts() {
   const [newProduct, setNewProduct] = useState([]);
-  const [bikes, setBikes] = useState([]);
-  const [pets, setPets] = useState([]);
-  const [mobile, setMobile] = useState([]);
 
   const getdata = async () => {
     await axios
@@ -26,40 +23,20 @@ function Posts() {
       .then((res) => {
         const secondData = res.data.newData;
         setNewProduct(secondData);
-        try {
-          const vehicles = newProduct.filter(
-            (c) => c.category === 'Bikes & Cars'
-          );
-          setBikes(vehicles);
-          try {
-            try {
-              const mobilePhone = newProduct.filter(
-                (c) => c.category === 'Mobile Accessories'
-              );
-              setMobile(mobilePhone);
-            } catch (error) {
-              console.log(error);
-            }
-          } catch (error) {
-            console.log(error);
-          }
-        } catch (error) {
-          console.log(error);
-        }
       })
       .catch((err) => {
         console.log(err);
       });
   };
-  console.log(pets, mobile, bikes);
   useEffect(() => {
-    const petList = newProduct.filter((c) => c.category === 'Pets');
-    console.log(petList);
-    setPets(petList);
     getdata();
   }, []);
+  const mobile = newProduct.filter((c) => c.category === 'Mobile Accessories');
+  const vehicles = newProduct.filter((c) => c.category === 'Bikes & Cars');
   const admin = localStorage.getItem('ADMIN');
+  const pets = newProduct.filter((c) => c.category === 'Pets');
   let price = newProduct.sort((a, b) => a.price - b.price);
+
   return (
     <div className="postParentDiv">
       <div className="moreView">
@@ -178,7 +155,7 @@ function Posts() {
           </Grid>
         ))}
       </Grid>
-      <Grid container spacing={1} sx={{ backgroundColor: ' ', padding: 3 }}>
+      <Grid container spacing={1} sx={{ padding: 3 }}>
         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
           {' '}
           <Typography
@@ -194,8 +171,8 @@ function Posts() {
             Bikes & Cars
           </Typography>
         </Grid>
-        {bikes.map((obj) => (
-          <Grid item xs={4} sm={3} md={2} lg={2} xl={2} backgroundColor="white">
+        {vehicles.map((obj) => (
+          <Grid item xs={12} sm={6} md={3} lg={2} xl={2}>
             <Card backgroundColor="black" sx={{}}>
               <Link>
                 <CardActionArea>
@@ -271,7 +248,7 @@ function Posts() {
           </Typography>
         </Grid>
         {mobile.map((obj) => (
-          <Grid itemxs={4} sm={3} md={2} lg={2} xl={2} backgroundColor="white">
+          <Grid item xs={12} sm={6} md={3} lg={2} xl={2}>
             <Card backgroundColor="black" sx={{}}>
               <CardActionArea>
                 <Grid
@@ -345,22 +322,7 @@ function Posts() {
           </Typography>
         </Grid>
         {pets.map((obj) => (
-          <Grid
-            item
-            xs={4}
-            sm={3}
-            md={2}
-            lg={2}
-            xl={2}
-            backgroundColor="white"
-            sx={
-              {
-                // paddingRight: 1,
-                // padding: 1,
-                // margin: 1,
-              }
-            }
-          >
+          <Grid item xs={12} sm={6} md={3} lg={2} xl={2}>
             <Card backgroundColor="black" sx={{}}>
               <CardActionArea>
                 <Grid

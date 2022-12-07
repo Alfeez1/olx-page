@@ -24,7 +24,9 @@ function Login() {
       .then((res) => {
         localStorage.setItem('TOKEN', res.data.token);
         localStorage.removeItem('ADMIN');
-        console.log(res.data.token);
+        localStorage.setItem('email', res.data.user.email);
+        localStorage.setItem('name', res.data.user.userName);
+        localStorage.setItem('phone', res.data.user.phone);
         history.push('/');
       })
       .catch((err) => {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './Create.css';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
@@ -17,6 +17,12 @@ const Create = () => {
     const image = e.target.files[0];
     setImage(image);
   };
+  const name = localStorage.getItem('name');
+  console.log(name);
+  const email = localStorage.getItem('email');
+  console.log(email);
+  const phone = localStorage.getItem('phone');
+  console.log(phone);
   const onFormSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -24,6 +30,9 @@ const Create = () => {
     formData.append('item', item);
     formData.append('price', price);
     formData.append('category', category);
+    formData.append('userName', name);
+    formData.append('email', email);
+    formData.append('phone', phone);
 
     // const productData = { item, category, price };
     console.log(formData);

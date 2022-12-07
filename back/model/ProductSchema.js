@@ -16,6 +16,15 @@ const ProductSchema = new Schema(
       data: Buffer,
       contentType: String,
     },
+    name: {
+      type: String,
+    },
+    phone: {
+      type: Number,
+    },
+    email: {
+      type: String,
+    },
   },
   { timestamps: true },
 
