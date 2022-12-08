@@ -8,7 +8,7 @@ import Arrow from '../../assets/Arrow';
 import SellButton from '../../assets/SellButton';
 import SellButtonPlus from '../../assets/SellButtonPlus';
 import axios from 'axios';
-import { Stack, Typography } from '@mui/material';
+import { Button, Stack, Typography } from '@mui/material';
 import { Link, useHistory } from 'react-router-dom';
 
 function Header() {
@@ -83,7 +83,7 @@ function Header() {
           {!token ? (
             <div className="loginPage">
               <a href="/login">
-                <button>login</button>
+                <Button>login</Button>
               </a>
               <a href="/signup" style={{ margin: 2 }}>
                 <button>signup</button>
@@ -93,7 +93,13 @@ function Header() {
           ) : (
             <div className="loginPage">
               <a href="/login">
-                <button onClick={logoutToken}>logout</button>
+                <Button
+                  class=".MuiTypography-button"
+                  variant="button"
+                  onClick={logoutToken}
+                >
+                  logout
+                </Button>
               </a>
             </div>
           )}

@@ -4,6 +4,7 @@ import './Signup.css';
 import { useState } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import { Button, Link } from '@mui/material';
 
 export default function AdminRegister() {
   const [userName, setUserName] = useState('');
@@ -90,7 +91,7 @@ export default function AdminRegister() {
           <br />
           <button>Signup</button>
         </form>
-        <a href>Login</a>
+        <Link href="/admin/login">Login</Link>
       </div>
     </div>
   );

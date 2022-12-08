@@ -4,10 +4,13 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import CallIcon from '@mui/icons-material/Call';
 import {
   Box,
   Button,
   Grid,
+  Link,
   MenuItem,
   Modal,
   Stack,
@@ -124,10 +127,13 @@ function View() {
         <div className="imageShowDiv">
           <img src={`/images/${singleData._id}.jpg`} alt="" />
         </div>
-
         <div className="rightSection">
           {admin ? (
-            <Stack spacing={1} direction="row" style={{ margin: 5 }}>
+            <Stack
+              spacing={1}
+              direction="row"
+              style={{ marginLeft: 40, marginTop: 1 }}
+            >
               <Button variant="outlined" onClick={handleOpen}>
                 Edit
                 <EditIcon />
@@ -317,6 +323,25 @@ function View() {
                 >
                   Email : {singleData.email}
                 </Typography>
+                <Stack
+                  direction="row"
+                  spacing={1}
+                  sx={{
+                    margin: '2px',
+                    alignContent: 'center',
+                    justifyContent: 'center',
+                    textAlign: 'center',
+                    display: 'flex',
+                  }}
+                >
+                  <Link href={`https://wa.me/${singleData.phone}`}>
+                    <WhatsAppIcon sx={{ fontSize: '35px' }} color="success" />
+                  </Link>
+                  <Link href={`tel:${singleData.phone}`}>
+                    {' '}
+                    <CallIcon sx={{ fontSize: '35px' }} color="success" />
+                  </Link>
+                </Stack>
               </Grid>
             </Grid>
           </Grid>

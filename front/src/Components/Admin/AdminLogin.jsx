@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import './Login.css';
 import Logo from '../../olx-logo.png';
 import { useHistory } from 'react-router-dom';
+import { Button, Link } from '@mui/material';
 
 function AdminLogin() {
   const [email, setEmail] = useState('');
@@ -68,7 +69,7 @@ function AdminLogin() {
           </div>
           <button onSubmit={onLogin}>Login</button>
         </form>
-        <a>Signup</a>
+        <Link href="/admin/register">Signup</Link>
       </div>
     </div>
   );
