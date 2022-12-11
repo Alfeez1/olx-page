@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-
-import Logo from '../../olx-logo.png';
+import { Box, Button, Grid, Link, TextField, Typography } from '@mui/material';
+import { Stack } from '@mui/system';
 import './Login.css';
 import { useHistory } from 'react-router-dom';
 
@@ -37,43 +37,84 @@ function Login() {
   };
 
   return (
-    <div>
-      <div className="loginParentDiv">
-        <img width="200px" height="200px" src={Logo} alt="hello" />
-        <form onSubmit={onLogin}>
-          <label htmlFor="fname">Email</label>
-          <br />
-          <input
-            className="input"
-            type="email"
-            id="fname"
-            name="email"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <br />
-          <label htmlFor="lname">Password</label>
-          <br />
-          <input
-            className="input"
-            type="password"
-            id="lname"
-            name="password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <br />
-          <br />
-          <div>
-            {errorOne ? (
-              <text style={{ color: 'red' }}>{errorMessage}</text>
-            ) : (
-              ''
-            )}
-          </div>
-          <button onSubmit={onLogin}>Login</button>
-        </form>
-        <a>Signup</a>
-      </div>
-    </div>
+    <Box className="signupParentDiv" width="35%">
+      <Grid
+        component="form"
+        flexDirection="column"
+        direction="column "
+        // gap={2}
+        // spacing={5}
+      >
+        <Grid>
+          <Typography
+            component="h1"
+            variant="h5"
+            sx={{
+              textAlign: 'center',
+              fontWeight: 'bold',
+              marginTop: 2,
+              marginBottom: 2,
+            }}
+          >
+            Admin Signup
+          </Typography>
+        </Grid>
+        <Stack margin="5px">
+          <Grid
+            component="form"
+            flexDirection="column"
+            direction="column "
+            gap={2}
+            spacing={5}
+          >
+            <Grid sx={{ marginTop: '5px' }}>
+              <TextField
+                label="Email"
+                variant="filled"
+                fullWidth
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </Grid>
+
+            <Grid sx={{ marginTop: '5px' }}>
+              <TextField
+                label="Password"
+                variant="filled"
+                fullWidth
+                type="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </Grid>
+            <Grid>
+              {errorOne ? (
+                <Typography
+                  style={{
+                    color: 'red',
+                    textAlign: 'center',
+                    fontWeight: 'bold',
+                  }}
+                >
+                  {errorMessage}
+                </Typography>
+              ) : (
+                ''
+              )}
+            </Grid>
+            <Button sx={{ marginTop: '10px' }} onClick={onLogin}>
+              Submit
+            </Button>
+            <Link href="/signup" sx={{ marginTop: '5px' }}>
+              signup
+            </Link>
+          </Grid>
+        </Stack>
+      </Grid>
+    </Box>
   );
 }
 

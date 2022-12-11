@@ -13,6 +13,7 @@ const ProductSchema = new Schema(
       required: true,
     },
     image: {
+      type: Array,
       data: Buffer,
       contentType: String,
     },

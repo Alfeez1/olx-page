@@ -41,7 +41,7 @@ function App() {
           <AdminLogin />{' '}
         </Route>
         <Route exact path="/admin/register">
-          <AdminRegister />{' '}
+          <AdminRegister />
         </Route>
       </Router>
     </div>

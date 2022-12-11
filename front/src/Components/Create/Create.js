@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import './Create.css';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
@@ -14,28 +14,28 @@ const Create = () => {
   const history = useHistory();
 
   const handleChange = (e) => {
-    const image = e.target.files[0];
+    const image = e.target.files;
     setImage(image);
+    console.log(image);
   };
   const name = localStorage.getItem('name');
-  console.log(name);
   const email = localStorage.getItem('email');
-  console.log(email);
   const phone = localStorage.getItem('phone');
-  console.log(phone);
   const onFormSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append('image', image);
     formData.append('item', item);
     formData.append('price', price);
     formData.append('category', category);
     formData.append('userName', name);
+
     formData.append('email', email);
     formData.append('phone', phone);
+    Array.from(image).forEach((key) => {
+      formData.append('image', key);
+    });
 
     // const productData = { item, category, price };
-    console.log(formData);
     axios
       .post('http://localhost:8000/product', formData)
       .then((res) => {
@@ -94,14 +94,14 @@ const Create = () => {
           <br />
 
           <form encType="multipart/form-data">
-            {/* <img
+            <img
               alt="posts"
               width="200px"
               height="200px"
-              src=""
-              onChange={(e) => setImage(e.target.files[0])}
-            ></img> */}
-            <input type="file" onChange={handleChange} />
+              src={handleChange}
+              onChange={(e) => setImage(e.target.files)}
+            ></img>
+            <input type="file" onChange={handleChange} multiple />
             <br />
             <button onClick={onFormSubmit} className="uploadBtn">
               upload and Submit
@@ -109,6 +109,11 @@ const Create = () => {
           </form>
         </div>
       </div>
+      <div
+        height="100px"
+        width="100px"
+        style={{ backgroundColor: '', width: '100%', height: '22px' }}
+      ></div>
       <div>
         <Footer />
       </div>

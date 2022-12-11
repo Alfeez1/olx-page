@@ -1,56 +1,99 @@
 import React from 'react';
+import {
+  MDBFooter,
+  MDBContainer,
+  MDBCol,
+  MDBRow,
+  MDBIcon,
+  MDBBtn,
+} from 'mdb-react-ui-kit';
+// import 'mdb-react-ui-kit/dist/css/mdb.min.css';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import { Link } from '@mui/material';
 
-import './Footer.css';
-
-function Footer() {
+export default function Footer() {
   return (
-    <div className="footerParentDiv">
-      <div className="content">
-        <div>
-          <div className="heading">
-            <p>POPULAR LOCATIONS</p>
-          </div>
-          <div className="list">
-            <ul>
-              <li>kolkata</li>
-              <li>Mumbai</li>
-              <li>Chennai</li>
-              <li>Pune</li>
-            </ul>
-          </div>
-        </div>
-        <div>
-          <div className="heading">
-            <p>ABOUT US</p>
-          </div>
-          <div className="list">
-            <ul>
-              <li>About OLX Group</li>
-              <li>Careers</li>
-              <li>Contact Us</li>
-              <li>OLXPeople</li>
-            </ul>
-          </div>
-        </div>
-        <div>
-          <div className="heading">
-            <p>OLX</p>
-          </div>
-          <div className="list">
-            <ul>
-              <li>Help</li>
-              <li>Sitemap</li>
-              <li>Legal & Privacy information</li>
-            </ul>
-          </div>
-        </div>
+    <MDBFooter className="bg-dark text-center text-white">
+      <MDBContainer className="p-4 pb-0">
+        <section className="mb-4">
+          <Link href="/admin/login">
+            <MDBBtn
+              outline
+              color="light"
+              floating
+              className="m-1"
+              href="/admin/login"
+              role="button"
+            >
+              <MDBIcon fab icon="facebook-f" />
+            </MDBBtn>
+
+            <MDBBtn
+              outline
+              color="light"
+              floating
+              className="m-1"
+              href="/admin/login"
+              role="button"
+            >
+              <MDBIcon fab icon="twitter" />
+            </MDBBtn>
+
+            <MDBBtn
+              outline
+              color="light"
+              floating
+              className="m-1"
+              href="/admin/login"
+              role="button"
+            >
+              <MDBIcon fab icon="google" />
+            </MDBBtn>
+            <MDBBtn
+              outline
+              color="light"
+              floating
+              className="m-1"
+              href="/admin/login"
+              role="button"
+            >
+              <MDBIcon fab icon="instagram" />
+            </MDBBtn>
+
+            <MDBBtn
+              outline
+              color="light"
+              floating
+              className="m-1"
+              href="/admin/login"
+              role="button"
+            >
+              <MDBIcon fab icon="linkedin-in" />
+            </MDBBtn>
+
+            <MDBBtn
+              outline
+              color="light"
+              floating
+              className="m-1"
+              href="#!"
+              role="button"
+            >
+              <MDBIcon fab icon="github" />
+            </MDBBtn>
+          </Link>
+        </section>
+      </MDBContainer>
+
+      <div
+        className="text-center p-3"
+        style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}
+      >
+        © 2020 Copyright:
+        <a className="text-white" href="https://mdbootstrap.com/">
+          MDBootstrap.com
+        </a>
       </div>
-      <div className="footer">
-        <p>Other Countries Pakistan - South Africa - Indonesia</p>
-        <p>Free Classifieds in India. © 2006-2021 OLX</p>
-      </div>
-    </div>
+    </MDBFooter>
   );
 }
-
-export default Footer;

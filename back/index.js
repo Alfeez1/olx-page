@@ -9,7 +9,7 @@ import jsonwebtoken from 'jsonwebtoken';
 import fileUpload from 'express-fileupload';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
-
+import fs from 'fs';
 const app = express();
 app.use(cors());
 app.use(fileUpload());
@@ -64,11 +64,16 @@ app.post('/login', async (req, res) => {
 
 const PORT = 8000;
 
-app.post('/product', (req, res) => {
+app.post('/product', async (req, res) => {
+  // console.log(req);
+  // console.log(Object.keys(req.files));
+  // console.log(Object.keys(req.body));
+
   console.log(req.files);
   console.log(req.body);
+
   try {
-    const saveImage = ProductSchema({
+    const saveImage = await ProductSchema({
       price: req.body.price,
       category: req.body.category,
       item: req.body.item,
@@ -80,19 +85,33 @@ app.post('/product', (req, res) => {
     if (!req.files) {
       return res.status(500).send({ msg: 'file is not found' });
     }
-    const myFile = req.files.image;
-    const myFiles = saveImage._id;
-    const name = '.jpg';
-    const path = __dirname + '/../front/public/Images/' + myFiles + name;
+    Object.keys(req.files).map((key) =>
+      fs.writeFile(
+        `./${req.files[key].name}.jpg`,
+        req.files[key].data,
+        (err) => {
+          if (err) console.log(err);
+          else {
+            console.log(`${req.files[key].name} written successfully`);
+            console.log(req.files[key]);
+          }
+        }
+      )
+    );
 
-    myFile.mv(path, function (err) {
-      if (err) {
-        console.log(err);
-        return res.status(500).send({ msg: 'Error occured' });
-      }
-      // returing the response with file path and name
-      return res.send({ status: 'success', path: path });
-    });
+    // const myFile = req.files.image;
+    // const myFiles = saveImage.item;
+    // const name = '.jpg';
+    // const path = __dirname + '/../front/public/Images/' + myFiles + name;
+
+    // myFile.mv(path, function (err) {
+    //   if (err) {
+    //     console.log(err);
+    //     return res.status(500).send({ msg: 'Error occured' });
+    //   }
+    //   // returing the response with file path and name
+    //   return res.send({ status: 'success', path: path });
+    // });
   } catch (error) {
     console.log(error);
   }

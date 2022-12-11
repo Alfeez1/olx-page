@@ -1,10 +1,10 @@
 import React from 'react';
-import Logo from '../../olx-logo.png';
 import './Signup.css';
 import { useState } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
-import { Button, Link } from '@mui/material';
+import { Box, Button, Grid, Link, TextField, Typography } from '@mui/material';
+import { Stack } from '@mui/system';
 
 export default function AdminRegister() {
   const [userName, setUserName] = useState('');
@@ -34,65 +34,92 @@ export default function AdminRegister() {
   };
 
   return (
-    <div>
-      <div className="signupParentDiv">
-        <h1 style={{ fontSize: 23, textAlign: 'center' }}>Admin Register</h1>
+    <Box className="signupParentDiv" width="35%">
+      <Grid
+        component="form"
+        flexDirection="column"
+        direction="column "
+        // gap={2}
+        // spacing={5}
+      >
+        <Grid>
+          <Typography
+            component="h1"
+            variant="h5"
+            sx={{
+              textAlign: 'center',
+              fontWeight: 'bold',
+              marginTop: 2,
+              marginBottom: 2,
+            }}
+          >
+            Admin Signup
+          </Typography>
+        </Grid>
+        <Stack margin="5px">
+          <Grid
+            component="form"
+            flexDirection="column"
+            direction="column "
+            gap={2}
+            spacing={5}
+          >
+            <Grid sx={{ marginTop: '5px' }}>
+              {' '}
+              <TextField
+                label="User Name"
+                variant="filled"
+                required
+                fullWidth
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+              />
+            </Grid>
+            <Grid sx={{ marginTop: '5px' }}>
+              <TextField
+                label="Email"
+                variant="filled"
+                fullWidth
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </Grid>
 
-        <img width="200px" height="200px" src={Logo} alt="hey"></img>
-        <form onSubmit={handleSubmit}>
-          <label htmlFor="fname">Username</label>
-          <br />
-          <input
-            className="input"
-            type="text"
-            id="fname"
-            value={userName}
-            onChange={(e) => setUserName(e.target.value)}
-            name="name"
-            defaultValue="John"
-          />
-          <br />
-          <label htmlFor="fname">Email</label>
-          <br />
-          <input
-            className="input"
-            type="email"
-            id="fname"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            name="email"
-            defaultValue="John"
-          />
-          <br />
-          <label htmlFor="lname">Phone</label>
-          <br />
-          <input
-            className="input"
-            type="number"
-            id="lname"
-            name="phone"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            defaultValue="Doe"
-          />
-          <br />
-          <label htmlFor="lname">Password</label>
-          <br />
-          <input
-            className="input"
-            type="password"
-            id="lname"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            name="password"
-            defaultValue="Doe"
-          />
-          <br />
-          <br />
-          <button>Signup</button>
-        </form>
-        <Link href="/admin/login">Login</Link>
-      </div>
-    </div>
+            <Grid sx={{ marginTop: '5px' }}>
+              {' '}
+              <TextField
+                label="Phone"
+                variant="filled"
+                type="Phone"
+                fullWidth
+                required
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+              />
+            </Grid>
+
+            <Grid sx={{ marginTop: '5px' }}>
+              <TextField
+                label="Password"
+                variant="filled"
+                fullWidth
+                type="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </Grid>
+            <Button sx={{ marginTop: '10px' }} onClick={handleSubmit}>
+              Submit
+            </Button>
+            <Link href="/admin/login" sx={{ marginTop: '5px' }}>
+              Login
+            </Link>
+          </Grid>
+        </Stack>
+      </Grid>
+    </Box>
   );
 }

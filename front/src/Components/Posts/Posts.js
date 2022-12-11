@@ -2,13 +2,11 @@ import {
   Card,
   CardActionArea,
   CardContent,
-  CardHeader,
   CardMedia,
   Grid,
   Link,
   Typography,
 } from '@mui/material';
-import { minHeight, Stack } from '@mui/system';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Heart from '../../assets/Heart';

@@ -9,6 +9,10 @@ import CallIcon from '@mui/icons-material/Call';
 import {
   Box,
   Button,
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
   Grid,
   Link,
   MenuItem,
@@ -63,8 +67,22 @@ function View() {
   const [price, setPrice] = useState('');
   const [image, setImage] = useState();
   const history = useHistory();
+  const [newProduct, setNewProduct] = useState([]);
 
   const { id } = useParams('');
+
+  const getdata = async () => {
+    await axios
+      .get('http://localhost:8000/getdata')
+      .then((res) => {
+        const secondData = res.data.newData;
+        console.log(secondData);
+        setNewProduct(secondData);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getProduct = async () => {
     await axios
       .get(`http://localhost:8000/getproduct/${id}`)
@@ -102,9 +120,17 @@ function View() {
         console.log(err);
       });
   };
-
+  const sameData = newProduct.filter(
+    (c) =>
+      c.item === singleData.item ||
+      c.price === singleData.price ||
+      c.name === singleData.name
+  );
+  console.log(sameData);
   useEffect(() => {
     getProduct();
+    getdata();
+    console.log(newProduct);
   }, []);
 
   const DeleteProduct = async () => {
@@ -132,7 +158,7 @@ function View() {
             <Stack
               spacing={1}
               direction="row"
-              style={{ marginLeft: 40, marginTop: 1 }}
+              style={{ marginLeft: 0, marginTop: 1 }}
             >
               <Button variant="outlined" onClick={handleOpen}>
                 Edit
@@ -146,12 +172,12 @@ function View() {
           ) : (
             ''
           )}
-          <Grid container direction="column" bgcolor="" padding="30px" gap={5}>
+          <Grid container direction="column" bgcolor="" padding="0px" gap={5}>
             <Grid
               sx={{
                 backgroundColor: '',
                 border: 2,
-                padding: 1,
+                padding: 0,
                 boxShadow: 10,
                 // width: '80%',
               }}
@@ -167,7 +193,7 @@ function View() {
                     border: 2,
                     marginTop: '-10px',
                     marginLeft: '-10px',
-                    marginRight: '-10px',
+                    // marginRight: '-10px',
                   }}
                 >
                   Product Detials
@@ -267,10 +293,12 @@ function View() {
             </Modal>
 
             <Grid
+              alignItems="center"
+              justifyContent="center"
               sx={{
                 backgroundColor: '',
                 border: 2,
-                padding: 1,
+                padding: 0,
                 boxShadow: 10,
                 // width: '80%',
               }}
@@ -283,10 +311,9 @@ function View() {
                     fontFamily: 'bolder',
                     // margin: 'auto',
                     textAlign: 'center',
-                    border: 2,
                     marginTop: '-10px',
                     marginLeft: '-10px',
-                    marginRight: '-10px',
+                    // marginRight: '-10px',
                   }}
                 >
                   Seller Detials
@@ -347,6 +374,93 @@ function View() {
           </Grid>
         </div>
       </div>
+
+      <Grid container spacing={1} backgroundColor="red" width="100%">
+        <Grid>
+          <Grid
+            container
+            spacing={1}
+            sx={{ padding: 10 }}
+            // direction="row"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+              {' '}
+              <Typography
+                variant="h5"
+                sx={{
+                  marginTop: 1,
+                  color: 'black',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  fontWeight: 'bold',
+                }}
+              >
+                Bikes & Cars
+              </Typography>
+            </Grid>
+            {sameData.map((obj) => (
+              <Grid item xs={4} sm={4} md={2} lg={1.5} xl={1.5}>
+                <Card backgroundColor="black">
+                  <Link>
+                    <CardActionArea>
+                      <Grid
+                        sx-={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}
+                      >
+                        <CardMedia
+                          component="img"
+                          height="200"
+                          sx={{
+                            padding: 2,
+                            objectFit: 'contain',
+                          }}
+                          image={`/images/${obj._id}.jpg`}
+                        ></CardMedia>
+                      </Grid>
+                      <CardContent>
+                        <Typography
+                          variant="h5"
+                          sx={{
+                            color: 'black',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            fontWeight: 'bold',
+                          }}
+                        >
+                          {obj.item}
+                        </Typography>
+                        <Typography
+                          sx={{
+                            color: 'black',
+                            display: 'flex',
+                            justifyContent: 'center',
+                          }}
+                        >
+                          {obj.category}
+                        </Typography>
+                        <Typography
+                          sx={{
+                            color: 'black',
+                            display: 'flex',
+                            justifyContent: 'center',
+                          }}
+                        >
+                          &#x20B9; {obj.price}
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                  </Link>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Grid>
+      </Grid>
     </div>
   );
 }
