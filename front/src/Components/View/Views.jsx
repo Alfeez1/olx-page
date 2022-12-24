@@ -30,7 +30,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getData, getproduct } from '../action/dataAction';
 
 const Views = () => {
-  const [singleData, setSingleData] = useState([]);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -38,11 +37,14 @@ const Views = () => {
   const [category, setCategory] = useState('');
   const [price, setPrice] = useState('');
   const [image, setImage] = useState();
-  const [value, setValue] = useState();
   const history = useHistory();
   const [activeStep, setActiveStep] = React.useState(0);
+  const dispatch = useDispatch();
+  const { productslist } = useSelector((state) => state?.user);
+  const { singleProduct } = useSelector((state) => state?.user);
+  const { _id, name, imageLength } = singleProduct;
   const theme = useTheme();
-
+  // console.log(imageLength.length);
   const style = {
     position: 'absolute',
     top: '50%',
@@ -55,28 +57,14 @@ const Views = () => {
     p: 4,
   };
   const { id } = useParams('');
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
   const handleStepChange = (step) => {
     setActiveStep(step);
   };
-  const dispatch = useDispatch();
-  const { productslist } = useSelector((state) => state?.user);
-  console.log('my data', productslist);
-  const { singleProduct } = useSelector((state) => state?.user);
-  console.log('my data', singleProduct);
-  const { _id, name } = singleProduct;
-  console.log(name);
   const handleChange = (e) => {
     const image = e.target.files[0];
     setImage(image);
   };
+
   const updateproduct = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -99,7 +87,10 @@ const Views = () => {
       c.price === singleProduct.price ||
       c.name === singleProduct.name
   );
+  const size = singleProduct.imageLength?.length;
+  console.log(size);
   useEffect(() => {
+    // getProduct();
     dispatch(getData());
     dispatch(getproduct(id));
   }, []);
@@ -122,20 +113,16 @@ const Views = () => {
     },
   ];
   const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
-  const A = singleData.imageLength;
-  console.log(A);
-  console.log(value);
-  console.log(singleData.imageLength);
+
   const arrayData = [];
-  for (let i = 1; i <= value; i++) {
+  for (let i = 1; i <= size; i++) {
     arrayData.push(i);
-    console.log(singleProduct._id + i);
+    console.log(_id + i);
   }
   const DeleteProduct = async () => {
     await axios
       .delete(`http://localhost:8000/deleteproduct/${id}`)
       .then((res) => {
-        // console.log(res);
         history.push('/');
       })
       .catch((err) => {
@@ -184,7 +171,7 @@ const Views = () => {
             >
               <img
                 style={{ width: '100%', height: '100%' }}
-                src={`/images/${singleProduct._id + index}.jpg`}
+                src={`/images/${_id + index}.jpg`}
                 alt=""
               />
             </Box>
