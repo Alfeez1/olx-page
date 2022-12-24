@@ -1,16 +1,14 @@
 .divclass {
-  padding-top: 100;
   margin: auto;
+  height: 79vh;
+  margin-top: 50px;
 }
 
 .centerDiv {
   border: 1px solid black;
   width: max-content;
   padding: 30px;
-  /* position: ; */
 
-  /* top: 65%;
-  left: 50%; */
   transform: translate(-0%, 20%);
   border-radius: 6px;
 }

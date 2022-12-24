@@ -89,9 +89,9 @@ export default function Footer() {
         className="text-center p-3"
         style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}
       >
-        © 2020 Copyright:
-        <a className="text-white" href="https://mdbootstrap.com/">
-          MDBootstrap.com
+        © 2022-
+        <a className="text-white" href="www.alfeez1010.com">
+          WWW.ALFEEZ.COM
         </a>
       </div>
     </MDBFooter>

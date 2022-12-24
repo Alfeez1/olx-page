@@ -197,7 +197,7 @@ export default function Header() {
               display: { xs: 'none', sm: 'block' },
             }}
           >
-            <Search>
+            <Search sx={{ display: { xs: 'none', md: 'block' } }}>
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
@@ -248,7 +248,6 @@ export default function Header() {
                   <Link href="/signup">
                     <Button
                       variant="button"
-                      // class=".MuiTypography-button"
                       sx={{
                         color: 'white',
                         backgroundColor: '',
@@ -273,7 +272,6 @@ export default function Header() {
                 >
                   <Link href="/login">
                     <Button
-                      // class=".MuiTypography-button"
                       variant="button"
                       onClick={logoutToken}
                       sx={{
@@ -292,7 +290,7 @@ export default function Header() {
           </Box>
           <Box
             sx={{
-              display: { xs: 'none', md: 'flex' },
+              display: { xs: 'block', md: 'flex' },
               boxShadow: 10,
               borderRadius: 2,
             }}
@@ -303,15 +301,19 @@ export default function Header() {
               color="inherit"
             >
               <Badge color="error">
-                <Typography fontSize="19px">
+                <Typography
+                  fontSize="19px"
+                  sx={{ display: { xs: 'none', md: 'flex' } }}
+                >
                   <Link
                     color="inherit"
                     href="/create"
                     sx={{ textDecoration: 'none' }}
                   >
-                    Sell <StorefrontIcon />
+                    Sell
                   </Link>{' '}
                 </Typography>
+                <StorefrontIcon />
               </Badge>
             </IconButton>
           </Box>

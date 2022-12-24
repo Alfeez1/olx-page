@@ -7,33 +7,26 @@ import {
   Link,
   Typography,
 } from '@mui/material';
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import { getData } from '../action/dataAction';
+import React, { useEffect } from 'react';
 import Heart from '../../assets/Heart';
 import './Post.css';
+import { useDispatch, useSelector } from 'react-redux';
 
 function Posts() {
-  const [newProduct, setNewProduct] = useState([]);
-
-  const getdata = async () => {
-    await axios
-      .get('http://localhost:8000/getdata')
-      .then((res) => {
-        const secondData = res.data.newData;
-        setNewProduct(secondData);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  const dispatch = useDispatch();
+  const { productslist } = useSelector((state) => state?.user);
+  console.log('my data', productslist);
   useEffect(() => {
-    getdata();
+    dispatch(getData());
   }, []);
-  const mobile = newProduct.filter((c) => c.category === 'Mobile Accessories');
-  const vehicles = newProduct.filter((c) => c.category === 'Bikes & Cars');
+  const mobile = productslist.filter(
+    (c) => c.category === 'Mobile Accessories'
+  );
+  const vehicles = productslist.filter((c) => c.category === 'Bikes & Cars');
   const admin = localStorage.getItem('ADMIN');
-  const pets = newProduct.filter((c) => c.category === 'Pets');
-  let price = newProduct.sort((a, b) => a.price - b.price);
+  const pets = productslist.filter((c) => c.category === 'Pets');
+  let price = productslist.sort((a, b) => a.price - b.price);
 
   return (
     <div className="postParentDiv">
@@ -43,14 +36,14 @@ function Posts() {
           <span>View more</span>
         </div>
         <div className="cards">
-          {newProduct?.map((obj, key) => (
+          {productslist?.map((obj, key) => (
             <div className="card">
               <div className="favorite">
                 <Heart></Heart>
               </div>
               <div className="image">
                 <a key={obj._id} href={`/product/${obj._id}`}>
-                  <img src={`/images/${obj._id}.jpg`} alt={obj.item} />
+                  <img src={`/images/${obj._id + 0}.jpg`} alt={obj.item} />
                 </a>
               </div>
               <div className="content">
@@ -113,7 +106,7 @@ function Posts() {
                         objectFit: 'contain',
                         padding: 2,
                       }}
-                      image={`/images/${obj._id}.jpg`}
+                      image={`/images/${obj._id + 0}.jpg`}
                     ></CardMedia>
                   </Grid>
                   <CardContent>
@@ -188,7 +181,7 @@ function Posts() {
                         padding: 2,
                         objectFit: 'contain',
                       }}
-                      image={`/images/${obj._id}.jpg`}
+                      image={`/images/${obj._id + 0}.jpg`}
                     ></CardMedia>
                   </Grid>
                   <CardContent>
@@ -263,7 +256,7 @@ function Posts() {
                       padding: 2,
                       objectFit: 'contain',
                     }}
-                    image={`/images/${obj._id}.jpg`}
+                    image={`/images/${obj._id + 0}.jpg`}
                   ></CardMedia>
                 </Grid>
                 <CardContent>
@@ -302,7 +295,7 @@ function Posts() {
           </Grid>
         ))}
       </Grid>
-      <Grid container spacing={1} sx={{ backgroundColor: ' ' }}>
+      <Grid container spacing={1} sx={{ marginBottom: 2 }}>
         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
           {' '}
           <Typography
@@ -337,7 +330,7 @@ function Posts() {
                       padding: 2,
                       objectFit: 'contain',
                     }}
-                    image={`/images/${obj._id}.jpg`}
+                    image={`/images/${obj._id + 0}.jpg`}
                   ></CardMedia>
                 </Grid>
                 <CardContent>

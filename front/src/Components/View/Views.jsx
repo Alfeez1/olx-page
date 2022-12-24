@@ -6,6 +6,9 @@ import { useParams } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import CallIcon from '@mui/icons-material/Call';
+import SwipeableViews from 'react-swipeable-views';
+import { autoPlay } from 'react-swipeable-views-utils';
+import { useTheme } from '@mui/material/styles';
 import {
   Box,
   Button,
@@ -23,8 +26,9 @@ import {
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useHistory } from 'react-router-dom';
-import './View.css';
-import { border } from '@mui/system';
+import { useDispatch, useSelector } from 'react-redux';
+import { getData, getproduct } from '../action/dataAction';
+
 const Views = () => {
   const [singleData, setSingleData] = useState([]);
   const [open, setOpen] = React.useState(false);
@@ -34,42 +38,45 @@ const Views = () => {
   const [category, setCategory] = useState('');
   const [price, setPrice] = useState('');
   const [image, setImage] = useState();
+  const [value, setValue] = useState();
   const history = useHistory();
-  const [newProduct, setNewProduct] = useState([]);
+  const [activeStep, setActiveStep] = React.useState(0);
+  const theme = useTheme();
 
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
   const { id } = useParams('');
-
-  const getdata = async () => {
-    await axios
-      .get('http://localhost:8000/getdata')
-      .then((res) => {
-        const secondData = res.data.newData;
-        console.log(secondData);
-        setNewProduct(secondData);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  const getProduct = async () => {
-    await axios
-      .get(`http://localhost:8000/getproduct/${id}`)
-      .then((response) => {
-        const itemdata = response.data;
-        setSingleData(itemdata);
-        console.log(itemdata);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const handleStepChange = (step) => {
+    setActiveStep(step);
+  };
+  const dispatch = useDispatch();
+  const { productslist } = useSelector((state) => state?.user);
+  console.log('my data', productslist);
+  const { singleProduct } = useSelector((state) => state?.user);
+  console.log('my data', singleProduct);
+  const { _id, name } = singleProduct;
+  console.log(name);
   const handleChange = (e) => {
     const image = e.target.files[0];
-    console.log(image);
     setImage(image);
   };
-
   const updateproduct = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -77,36 +84,58 @@ const Views = () => {
     formData.append('item', item);
     formData.append('price', price);
     formData.append('category', category);
-    console.log(formData);
     await axios
       .patch(`http://localhost:8000/updateproduct/${id}`, formData)
       .then((res) => {
-        console.log(res.data);
         history.push(`/`);
       })
       .catch((err) => {
         console.log(err);
       });
   };
-  const sameData = newProduct.filter(
+  const sameData = productslist.filter(
     (c) =>
-      c.item === singleData.item ||
-      c.price === singleData.price ||
-      c.name === singleData.name
+      c.item === singleProduct.item ||
+      c.price === singleProduct.price ||
+      c.name === singleProduct.name
   );
-  console.log(sameData);
   useEffect(() => {
-    getProduct();
-    getdata();
-    console.log(newProduct);
+    dispatch(getData());
+    dispatch(getproduct(id));
   }, []);
-
+  const categories = [
+    {
+      value: 'Bikes & Cars',
+      label: 'Bikes & Cars',
+    },
+    {
+      value: 'Mobile Accessories',
+      label: 'Mobile Accessories',
+    },
+    {
+      value: 'Computer & Laptops',
+      label: 'Computer & Laptops',
+    },
+    {
+      value: 'Pets',
+      label: 'Pets',
+    },
+  ];
+  const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
+  const A = singleData.imageLength;
+  console.log(A);
+  console.log(value);
+  console.log(singleData.imageLength);
+  const arrayData = [];
+  for (let i = 1; i <= value; i++) {
+    arrayData.push(i);
+    console.log(singleProduct._id + i);
+  }
   const DeleteProduct = async () => {
     await axios
       .delete(`http://localhost:8000/deleteproduct/${id}`)
       .then((res) => {
         // console.log(res);
-        const dataDelete = res.data;
         history.push('/');
       })
       .catch((err) => {
@@ -130,16 +159,37 @@ const Views = () => {
         md={6}
         lg={6}
         xl={6}
-        boxShadow={6}
         width="100%"
         height={500}
         marginBottom={3}
       >
-        <img
-          style={{ width: '100%', height: '100%' }}
-          src={`/images/${singleData._id}.jpg`}
-          alt=""
-        />
+        <AutoPlaySwipeableViews
+          axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+          index={activeStep}
+          onChangeIndex={handleStepChange}
+          enableMouseEvents
+        >
+          {arrayData.map((obj, index) => (
+            <Box
+              border={2}
+              boxShadow={10}
+              sx={{
+                height: 500,
+                display: 'block',
+                maxWidth: '100%',
+                overflow: 'hidden',
+                width: '100%',
+                boxShadow: '86px',
+              }}
+            >
+              <img
+                style={{ width: '100%', height: '100%' }}
+                src={`/images/${singleProduct._id + index}.jpg`}
+                alt=""
+              />
+            </Box>
+          ))}
+        </AutoPlaySwipeableViews>
       </Grid>
       <Grid
         item
@@ -216,7 +266,7 @@ const Views = () => {
                   textAlign: 'center',
                 }}
               >
-                {singleData.item}
+                {singleProduct.item}
               </Typography>
               <Typography
                 sx={{
@@ -226,7 +276,7 @@ const Views = () => {
                   textAlign: 'center',
                 }}
               >
-                {singleData.category}
+                {singleProduct.category}
               </Typography>
               <Typography
                 sx={{
@@ -236,11 +286,65 @@ const Views = () => {
                   textAlign: 'center',
                 }}
               >
-                &#x20B9;{singleData.price}
+                &#x20B9;{singleProduct.price}
               </Typography>
             </Grid>
           </Grid>
         </Grid>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <Stack direction="column" gap={2}>
+              <Typography id="modal-modal-title" variant="h5" component="h2">
+                Product Detials
+              </Typography>
+              <TextField
+                fullWidth
+                id="outlined-name"
+                label="Product Name"
+                defaultValue={singleProduct.item}
+                onChange={(e) => setItem(e.target.value)}
+              />
+              <TextField
+                id="outlined-select-currency"
+                select
+                label="Select"
+                defaultValue={singleProduct.category}
+                onChange={(e) => setCategory(e.target.value)}
+                helperText="Please select your currency"
+              >
+                {categories.map((option, index) => (
+                  <MenuItem
+                    key={option.value}
+                    index={singleProduct._id}
+                    value={option.value}
+                  >
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <TextField
+                id="outlined-uncontrolled"
+                label="Uncontrolled"
+                defaultValue={singleProduct.price}
+                onChange={(e) => setPrice(e.target.value)}
+              />
+              <input type="file" onChange={handleChange} />
+
+              <Button
+                variant="contained"
+                component="label"
+                onClick={updateproduct}
+              >
+                Submit
+              </Button>
+            </Stack>
+          </Box>
+        </Modal>
         <Grid
           direction="column"
           gap={3}
@@ -276,7 +380,7 @@ const Views = () => {
                   textAlign: 'center',
                 }}
               >
-                Mobile : {singleData.phone}
+                Mobile : {singleProduct.phone}
               </Typography>
               <Typography
                 sx={{
@@ -286,7 +390,7 @@ const Views = () => {
                   textAlign: 'center',
                 }}
               >
-                Email : {singleData.email}
+                Email : {singleProduct.email}
               </Typography>
               <Typography
                 sx={{
@@ -296,7 +400,7 @@ const Views = () => {
                   textAlign: 'center',
                 }}
               >
-                &#x20B9;{singleData.price}
+                &#x20B9;{singleProduct.price}
               </Typography>
               <Stack
                 direction="row"
@@ -309,10 +413,10 @@ const Views = () => {
                   display: 'flex',
                 }}
               >
-                <Link href={`https://wa.me/${singleData.phone}`}>
+                <Link href={`https://wa.me/${singleProduct.phone}`}>
                   <WhatsAppIcon sx={{ fontSize: '35px' }} color="success" />
                 </Link>
-                <Link href={`tel:${singleData.phone}`}>
+                <Link href={`tel:${singleProduct.phone}`}>
                   {' '}
                   <CallIcon sx={{ fontSize: '35px' }} color="success" />
                 </Link>
@@ -378,7 +482,7 @@ const Views = () => {
                           padding: 2,
                           objectFit: 'contain',
                         }}
-                        image={`/images/${obj._id}.jpg`}
+                        image={`/images/${obj._id + 0}.jpg`}
                       ></CardMedia>
                     </Grid>
                     <CardContent>

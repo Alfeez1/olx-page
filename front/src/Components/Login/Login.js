@@ -38,13 +38,7 @@ function Login() {
 
   return (
     <Box className="signupParentDiv" width="35%">
-      <Grid
-        component="form"
-        flexDirection="column"
-        direction="column "
-        // gap={2}
-        // spacing={5}
-      >
+      <Grid component="form" flexDirection="column" direction="column ">
         <Grid>
           <Typography
             component="h1"
@@ -56,7 +50,7 @@ function Login() {
               marginBottom: 2,
             }}
           >
-            Admin Signup
+            Login
           </Typography>
         </Grid>
         <Stack margin="5px">

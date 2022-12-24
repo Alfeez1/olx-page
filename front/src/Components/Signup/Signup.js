@@ -2,15 +2,19 @@ import React from 'react';
 import './Signup.css';
 import { useState } from 'react';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
 import { Box, Button, Grid, Link, TextField, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
+import { useDispatch } from 'react-redux';
+import { userRegister } from '../action/dataAction';
+import { useHistory } from 'react-router-dom';
 
 export default function Signup() {
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
+
+  const dispatch = useDispatch();
   const history = useHistory();
 
   const handleSubmit = (e) => {
@@ -22,15 +26,9 @@ export default function Signup() {
       password,
     };
     console.log(formData);
-    axios
-      .post('http://localhost:8000/signup', formData)
-      .then((res) => {
-        console.log('done');
-        history.push('/login');
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    dispatch(userRegister(formData)).then((formData) => {
+      history.push('/login');
+    });
   };
 
   return (
@@ -53,7 +51,7 @@ export default function Signup() {
               marginBottom: 2,
             }}
           >
-            Admin Signup
+            Signup
           </Typography>
         </Grid>
         <Stack margin="5px">

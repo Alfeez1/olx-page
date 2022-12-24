@@ -49,12 +49,35 @@ const Create = () => {
 
   return (
     <div>
-      <div>
+      <div marginBottom="50px">
         <Header />
       </div>
-      <div className="divclass">
-        <div className="centerDiv" style={{ margin: 'auto', marginBottom: 90 }}>
-          <form>
+      <div
+        className="divclass"
+        height="1000vh"
+        backgroundColor="red"
+        marginTop={10}
+      >
+        <div
+          className="centerDiv"
+          style={{
+            margin: 'auto',
+            marginBottom: 0,
+            justifyContent: 'center',
+            justifyItems: 'center',
+            alignContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <form
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              justifyItems: 'center',
+              alignContent: 'center',
+              alignItems: 'center',
+            }}
+          >
             <label htmlFor="fname">Product Name</label>
             <br />
             <input
@@ -109,11 +132,6 @@ const Create = () => {
           </form>
         </div>
       </div>
-      <div
-        height="100px"
-        width="100px"
-        style={{ backgroundColor: '', width: '100%', height: '22px' }}
-      ></div>
       <div>
         <Footer />
       </div>
