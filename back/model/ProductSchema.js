@@ -12,11 +12,11 @@ const ProductSchema = new Schema(
       type: Number,
       required: true,
     },
-    image: {
-      type: Array,
-      data: Buffer,
-      contentType: String,
-    },
+    // image: {
+    //   type: Array,
+    //   data: Buffer,
+    //   contentType: String,
+    // },
     name: {
       type: String,
     },
@@ -25,6 +25,9 @@ const ProductSchema = new Schema(
     },
     email: {
       type: String,
+    },
+    imageLength: {
+      type: Array,
     },
   },
   { timestamps: true },

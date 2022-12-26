@@ -3,6 +3,7 @@ import {
   USER_REGISTER_DATA,
   GET_DATA,
   PRODUCT_DATA,
+  UPDATE_DATA,
 } from '../../constants/constantData';
 
 const API_URL = 'http://localhost:8000';
@@ -32,5 +33,17 @@ export const getproduct = (id) => async (dispatch) => {
     console.log(res.data);
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const updateproductData = (id, data) => async (dispatch) => {
+  try {
+    const res = await axios.patch(`http://localhost:8000/updateproduct/${id}`, {
+      data,
+    });
+    dispatch({ type: UPDATE_DATA, payload: res });
+    console.log(res);
+  } catch (error) {
+    console.log('error while calling update data', error);
   }
 };

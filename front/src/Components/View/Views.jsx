@@ -27,7 +27,7 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getData, getproduct } from '../action/dataAction';
+import { getData, getproduct, updateproductData } from '../action/dataAction';
 
 const Views = () => {
   const [open, setOpen] = React.useState(false);
@@ -42,9 +42,8 @@ const Views = () => {
   const dispatch = useDispatch();
   const { productslist } = useSelector((state) => state?.user);
   const { singleProduct } = useSelector((state) => state?.user);
-  const { _id, name, imageLength } = singleProduct;
+  const { _id, imageLength } = singleProduct;
   const theme = useTheme();
-  // console.log(imageLength.length);
   const style = {
     position: 'absolute',
     top: '50%',
@@ -72,6 +71,10 @@ const Views = () => {
     formData.append('item', item);
     formData.append('price', price);
     formData.append('category', category);
+    // const formData = { item, price, category, image };
+    // console.log(formData);
+    // dispatch(updateproductData(id, formData));
+
     await axios
       .patch(`http://localhost:8000/updateproduct/${id}`, formData)
       .then((res) => {
@@ -87,10 +90,8 @@ const Views = () => {
       c.price === singleProduct.price ||
       c.name === singleProduct.name
   );
-  const size = singleProduct.imageLength?.length;
-  console.log(size);
+  const size = imageLength?.length;
   useEffect(() => {
-    // getProduct();
     dispatch(getData());
     dispatch(getproduct(id));
   }, []);
@@ -117,7 +118,6 @@ const Views = () => {
   const arrayData = [];
   for (let i = 1; i <= size; i++) {
     arrayData.push(i);
-    console.log(_id + i);
   }
   const DeleteProduct = async () => {
     await axios

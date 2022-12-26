@@ -104,9 +104,7 @@ function AdminLogin() {
             <Button sx={{ marginTop: '10px' }} onClick={onLogin}>
               Submit
             </Button>
-            <Link href="/admin/signup" sx={{ marginTop: '5px' }}>
-              signup
-            </Link>
+            <Link href="/admin/register" sx={{ marginTop: '5px' }}></Link>
           </Grid>
         </Stack>
       </Grid>

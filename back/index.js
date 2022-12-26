@@ -10,6 +10,7 @@ import fileUpload from 'express-fileupload';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
+import produce from 'immer';
 const app = express();
 app.use(cors());
 app.use(fileUpload());
@@ -23,15 +24,14 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 app.post('/signup', async (req, res) => {
-  console.log(req.body);
+  console.log(req.body.data);
   try {
     await userSchema.create({
-      userName: req.body.userName,
-      email: req.body.email,
-      phone: req.body.phone,
-      password: req.body.password,
+      userName: req.body.data.userName,
+      email: req.body.data.email,
+      phone: req.body.data.phone,
+      password: req.body.data.password,
     });
-
     res.json({ status: 'ok' });
   } catch (error) {
     res.json({ status: error });
@@ -65,13 +65,6 @@ app.post('/login', async (req, res) => {
 const PORT = 8000;
 
 app.post('/product', async (req, res) => {
-  // console.log(req);
-  // console.log(Object.keys(req.files));
-  // console.log(Object.keys(req.body));
-
-  console.log(req.files);
-  console.log(req.body);
-
   try {
     const saveImage = await ProductSchema({
       price: req.body.price,
@@ -80,38 +73,38 @@ app.post('/product', async (req, res) => {
       name: req.body.userName,
       phone: req.body.phone,
       email: req.body.email,
+      imageLength: req.files.image,
     });
-    saveImage.save().then((res) => {});
+    saveImage.save();
+    console.log(saveImage);
     if (!req.files) {
       return res.status(500).send({ msg: 'file is not found' });
-    }
-    Object.keys(req.files).map((key) =>
-      fs.writeFile(
-        `./${req.files[key].name}.jpg`,
-        req.files[key].data,
-        (err) => {
-          if (err) console.log(err);
-          else {
-            console.log(`${req.files[key].name} written successfully`);
-            console.log(req.files[key]);
+    } else if (req.files.image.length >= 1) {
+      Object.keys(req.files).map((key) => {
+        req.files[key].map((a, index) => {
+          const imageIndex = saveImage._id + index;
+          fs.writeFile(
+            `../front/public/images/${imageIndex}.jpg`,
+            a.data,
+            () => {}
+          );
+        });
+      });
+      res.send({});
+    } else {
+      Object.keys(req.files).map((key, index) => {
+        fs.writeFile(
+          `../front/public/images/${saveImage._id + index}.jpg`,
+          req.files[key].data,
+          (err) => {
+            console.log(err);
           }
-        }
-      )
-    );
-
-    // const myFile = req.files.image;
-    // const myFiles = saveImage.item;
-    // const name = '.jpg';
-    // const path = __dirname + '/../front/public/Images/' + myFiles + name;
-
-    // myFile.mv(path, function (err) {
-    //   if (err) {
-    //     console.log(err);
-    //     return res.status(500).send({ msg: 'Error occured' });
-    //   }
-    //   // returing the response with file path and name
-    //   return res.send({ status: 'success', path: path });
-    // });
+        );
+      }),
+        res.send({
+          message: 'single files',
+        });
+    }
   } catch (error) {
     console.log(error);
   }
@@ -131,9 +124,7 @@ app.get('/getdata', async (req, res) => {
 
 app.get('/getproduct/:id', async (req, res) => {
   try {
-    // console.log(req.params);
     const { id } = req.params;
-
     const singleItem = await ProductSchema.findById({
       _id: id,
     });
@@ -196,7 +187,7 @@ app.delete('/deleteproduct/:id', async (req, res) => {
 });
 app.patch('/updateproduct/:id', async (req, res) => {
   const { id } = req.params;
-  console.log(req.files);
+  // console.log(req.files);
 
   try {
     const updateproduct = await ProductSchema.findByIdAndUpdate(id, req.body, {
