@@ -1,8 +1,9 @@
 import mongoose from 'mongoose';
 import 'dotenv/config';
 export const Connections = () => {
-  // const MONGODB_URI = 'mongodb://localhost:27017/olxlogin';
-  mongoose.connect(process.env.MONGO_URL, {});
+  const MONGO_URL =
+    'mongodb+srv://alfeez:alfeez@sale.gafp4cz.mongodb.net/?retryWrites=true&w=majority';
+  mongoose.connect(MONGO_URL, {});
 
   mongoose.connection.on('connected', () => {
     console.log('database connected');
