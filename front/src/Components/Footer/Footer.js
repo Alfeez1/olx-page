@@ -1,14 +1,6 @@
 import React from 'react';
-import {
-  MDBFooter,
-  MDBContainer,
-  MDBCol,
-  MDBRow,
-  MDBIcon,
-  MDBBtn,
-} from 'mdb-react-ui-kit';
-// import 'mdb-react-ui-kit/dist/css/mdb.min.css';
-import '@fortawesome/fontawesome-free/css/all.min.css';
+import { MDBFooter, MDBContainer, MDBIcon, MDBBtn } from 'mdb-react-ui-kit';
+// import '@fortawesome/fontawesome-free/css/all.min.css';
 import { Link } from '@mui/material';
 
 export default function Footer() {
