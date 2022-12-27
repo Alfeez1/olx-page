@@ -14,7 +14,8 @@ import path from 'path';
 const app = express();
 app.use(cors());
 app.use(fileUpload());
-
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -23,9 +24,7 @@ const db = Connections();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 app.use(express.static(path.join(__dirname, '../front/build')));
-app.get('*', (req, res) =>
-  res.sendFile(path.join(__dirname, '../front/build/index.html'))
-);
+
 app.post('/signup', async (req, res) => {
   console.log(req.body.data);
   try {
@@ -214,5 +213,7 @@ app.patch('/updateproduct/:id', async (req, res) => {
     console.log(error);
   }
 });
-
+app.get('*', (req, res) =>
+  res.sendFile(path.join(__dirname, '../front/build/index.html'))
+);
 app.listen(PORT, () => console.log(`running successfully ${PORT}`));

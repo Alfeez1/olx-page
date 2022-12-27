@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import { getData } from '../action/dataAction';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Heart from '../../assets/Heart';
 import './Post.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,12 +16,21 @@ import axios from 'axios';
 
 function Posts() {
   const dispatch = useDispatch();
+  const [newProduct, setNewProduct] = useState([]);
+
   const { productslist } = useSelector((state) => state?.user);
   console.log('my data', productslist);
   const getdata = async () => {
-    axios.get('http://localhost:8000/getdata').then((res) => {
-      console.log(res);
-    });
+    await axios
+      .get('http://localhost:8000/getdata')
+      .then((res) => {
+        const secondData = res.data.newData;
+        setNewProduct(secondData);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   useEffect(() => {
     dispatch(getData());
