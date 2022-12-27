@@ -8,25 +8,39 @@ import {
   Typography,
 } from '@mui/material';
 import { getData } from '../action/dataAction';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Heart from '../../assets/Heart';
 import './Post.css';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 
 function Posts() {
+  const [newProduct, setNewProduct] = useState([]);
   const dispatch = useDispatch();
   const { productslist } = useSelector((state) => state?.user);
-  console.log('my data', productslist);
+  // console.log('my data', productslist);
+  const getdata = async () => {
+    await axios
+      .get('http://localhost:8000/getdata')
+      .then((res) => {
+        const secondData = res.data.newData;
+        console.log(res);
+        setNewProduct(secondData);
+        console.log(secondData);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   useEffect(() => {
-    dispatch(getData());
+    getdata();
   }, []);
-  const mobile = productslist.filter(
-    (c) => c.category === 'Mobile Accessories'
-  );
-  const vehicles = productslist.filter((c) => c.category === 'Bikes & Cars');
+  console.log(newProduct);
+  const mobile = newProduct.filter((c) => c.category === 'Mobile Accessories');
+  const vehicles = newProduct.filter((c) => c.category === 'Bikes & Cars');
   const admin = localStorage.getItem('ADMIN');
-  const pets = productslist.filter((c) => c.category === 'Pets');
-  let price = productslist.sort((a, b) => a.price - b.price);
+  const pets = newProduct.filter((c) => c.category === 'Pets');
+  let price = newProduct.sort((a, b) => a.price - b.price);
 
   return (
     <div className="postParentDiv">

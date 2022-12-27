@@ -11,7 +11,7 @@ import fileUpload from 'express-fileupload';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
-const app = express();
+const app = express();gigt 
 app.use(cors());
 app.use(fileUpload());
 
