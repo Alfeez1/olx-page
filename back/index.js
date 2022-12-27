@@ -10,6 +10,7 @@ import fileUpload from 'express-fileupload';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
+import path from 'path';
 const app = express();
 app.use(cors());
 app.use(fileUpload());
@@ -21,7 +22,10 @@ const db = Connections();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-
+app.use(express.static(path.join(__dirname, '../front/build')));
+app.get('*', (req, res) =>
+  res.sendFile(path.join(__dirname, '../front/build/index.html'))
+);
 app.post('/signup', async (req, res) => {
   console.log(req.body.data);
   try {

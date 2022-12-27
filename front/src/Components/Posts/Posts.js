@@ -12,13 +12,20 @@ import React, { useEffect } from 'react';
 import Heart from '../../assets/Heart';
 import './Post.css';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 
 function Posts() {
   const dispatch = useDispatch();
   const { productslist } = useSelector((state) => state?.user);
   console.log('my data', productslist);
+  const getdata = async () => {
+    axios.get('http://localhost:8000/getdata').then((res) => {
+      console.log(res);
+    });
+  };
   useEffect(() => {
     dispatch(getData());
+    getdata();
   }, []);
   const mobile = productslist.filter(
     (c) => c.category === 'Mobile Accessories'
@@ -81,13 +88,6 @@ function Posts() {
             lg={3}
             xl={3}
             backgroundColor="white"
-            sx={
-              {
-                // paddingRight: 1,
-                // padding: 1,
-                // margin: 1,
-              }
-            }
           >
             <Card backgroundColor="black" sx={{}}>
               <Link href={`/product/${obj._id}`}>
