@@ -1,24 +1,14 @@
 import React from 'react';
-import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import './Banner.css';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
 import { useTheme } from '@mui/material/styles';
-import { bgcolor } from '@mui/system';
 import { Box } from '@mui/material';
-import zIndex from '@mui/material/styles/zIndex';
 function Banner() {
   const [activeStep, setActiveStep] = React.useState(0);
 
   const theme = useTheme();
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
 
   const handleStepChange = (step) => {
     setActiveStep(step);

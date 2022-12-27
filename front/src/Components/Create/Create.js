@@ -37,7 +37,7 @@ const Create = () => {
 
     // const productData = { item, category, price };
     axios
-      .post('/product', formData)
+      .post('http://localhost:8000/product', formData)
       .then((res) => {
         console.log(res);
         history.push('/');

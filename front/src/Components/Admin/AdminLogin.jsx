@@ -19,7 +19,7 @@ function AdminLogin() {
     e.preventDefault();
 
     axios
-      .post('/admin/login', loginData)
+      .post('http://localhost:8000/admin/login', loginData)
       .then((res) => {
         localStorage.setItem('ADMIN', res.data.adminToken);
         console.log(res.data);

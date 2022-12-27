@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import path from 'path';
 import Connections from './db/db.js';
 import userSchema from './model/mongoschema.js';
 import ProductSchema from './model/ProductSchema.js';
@@ -21,7 +22,13 @@ const db = Connections();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-
+app.use(express.static(path.join(__dirname, '../front/build')));
+app.get('*', (req, res) =>
+  res.sendFile(path.join(__dirname, '../front/build/index.html'))
+);
+app.use((err, req, res, next) => {
+  res.status(500).send({ message: err.message });
+});
 app.post('/signup', async (req, res) => {
   console.log(req.body.data);
   try {

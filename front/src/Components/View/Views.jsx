@@ -76,7 +76,7 @@ const Views = () => {
     // dispatch(updateproductData(id, formData));
 
     await axios
-      .patch(`/updateproduct/${id}`, formData)
+      .patch(`http://localhost:8000/updateproduct/${id}`, formData)
       .then((res) => {
         history.push(`/`);
       })
@@ -121,7 +121,7 @@ const Views = () => {
   }
   const DeleteProduct = async () => {
     await axios
-      .delete(`/deleteproduct/${id}`)
+      .delete(`http://localhost:8000/deleteproduct/${id}`)
       .then((res) => {
         history.push('/');
       })

@@ -23,7 +23,7 @@ export default function AdminRegister() {
     };
     console.log(formData);
     axios
-      .post('/admin/register', formData)
+      .post('http://localhost:8000/admin/register', formData)
       .then((res) => {
         console.log('done');
         history.push('/admin/login');
