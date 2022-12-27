@@ -22,7 +22,7 @@ export const getData = () => async (dispatch) => {
     const res = await axios.get(`${API_URL}/getdata`);
     dispatch({ type: GET_DATA, payload: res.data.newData });
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
   }
 };
 
