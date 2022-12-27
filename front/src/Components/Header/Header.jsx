@@ -154,7 +154,7 @@ export default function Header() {
   const [newProduct, setNewProduct] = useState([]);
   const [newItem, setNewItem] = useState([]);
   const getdata = async () => {
-    await axios.get('http://localhost:8000/getdata').then((res) => {
+    await axios.get('/getdata').then((res) => {
       const secondData = res.data.newData;
       setNewProduct(secondData);
     });

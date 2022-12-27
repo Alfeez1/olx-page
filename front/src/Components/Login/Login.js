@@ -20,7 +20,7 @@ function Login() {
     e.preventDefault();
 
     axios
-      .post('http://localhost:8000/login', loginData)
+      .post('/login', loginData)
       .then((res) => {
         localStorage.setItem('TOKEN', res.data.token);
         localStorage.removeItem('ADMIN');

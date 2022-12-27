@@ -15,9 +15,9 @@
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Alfeez1/olx-page/issues"
+    "url": "https://github.com/Alfeez1/olx-page.git/issues"
   },
-  "homepage": "https://github.com/Alfeez1/olx-page#readme",
+  "homepage": "https://github.com/Alfeez1/olx-page.git#readme",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.2.1",
     "dotenv": "^16.0.3"

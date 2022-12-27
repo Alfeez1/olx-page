@@ -6,11 +6,9 @@ import {
   UPDATE_DATA,
 } from '../../constants/constantData';
 
-const API_URL = 'http://localhost:8000';
-
 export const userRegister = (data) => async (dispatch) => {
   try {
-    const user = await axios.post(`${API_URL}/signup`, { data });
+    const user = await axios.post(`/signup`, { data });
     dispatch({ type: USER_REGISTER_DATA, payload: user.data });
   } catch (error) {
     console.log(error);
@@ -19,7 +17,7 @@ export const userRegister = (data) => async (dispatch) => {
 
 export const getData = () => async (dispatch) => {
   try {
-    const res = await axios.get(`${API_URL}/getdata`);
+    const res = await axios.get(`/getdata`);
     dispatch({ type: GET_DATA, payload: res.data.newData });
   } catch (error) {
     console.log(error.message);
@@ -28,7 +26,7 @@ export const getData = () => async (dispatch) => {
 
 export const getproduct = (id) => async (dispatch) => {
   try {
-    const res = await axios.get(`${API_URL}/getproduct/${id}`);
+    const res = await axios.get(`/getproduct/${id}`);
     dispatch({ type: PRODUCT_DATA, payload: res?.data });
     console.log(res.data);
   } catch (error) {
@@ -38,7 +36,7 @@ export const getproduct = (id) => async (dispatch) => {
 
 export const updateproductData = (id, data) => async (dispatch) => {
   try {
-    const res = await axios.patch(`http://localhost:8000/updateproduct/${id}`, {
+    const res = await axios.patch(`/updateproduct/${id}`, {
       data,
     });
     dispatch({ type: UPDATE_DATA, payload: res });
