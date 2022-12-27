@@ -14,11 +14,9 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import { Autocomplete, Button, Stack, TextField } from '@mui/material';
 import Link from '@mui/material/Link';
-import { border } from '@mui/system';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -65,10 +63,6 @@ export default function Header() {
   const handleMenuClose = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
-  };
-
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
   };
 
   const menuId = 'primary-search-account-menu';
@@ -150,9 +144,7 @@ export default function Header() {
     localStorage.removeItem('TOKEN');
     localStorage.removeItem('ADMIN');
   };
-  const history = useHistory();
   const [newProduct, setNewProduct] = useState([]);
-  const [newItem, setNewItem] = useState([]);
   const getdata = async () => {
     await axios.get('http://localhost:8000/getdata').then((res) => {
       const secondData = res.data.newData;
@@ -201,7 +193,7 @@ export default function Header() {
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
-              <Autocomplete
+              {/* <Autocomplete
                 freeSolo
                 id="free-solo-2-demo"
                 disableClearable
@@ -215,7 +207,7 @@ export default function Header() {
                     }}
                   />
                 )}
-              />
+              /> */}
             </Search>
           </Stack>
 
