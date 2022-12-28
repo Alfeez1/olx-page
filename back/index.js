@@ -11,7 +11,7 @@ import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 // import fs from 'fs';
 import path from 'path';
-import routes from './Routes/MainRoute';
+import routes from './Routes/MainRoute.js';
 const app = express();
 app.use(cors());
 app.use(fileUpload());
