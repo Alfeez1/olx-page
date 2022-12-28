@@ -119,6 +119,7 @@ app.get('/getdata', async (req, res) => {
       status: true,
       newData,
     });
+    console.log('data got');
   } catch (error) {
     console.log(error);
   }
@@ -213,7 +214,7 @@ app.patch('/updateproduct/:id', async (req, res) => {
     console.log(error);
   }
 });
-app.get('*', (req, res) =>
+app.get('/', (req, res) =>
   res.sendFile(path.join(__dirname, '../front/build/index.html'))
 );
 app.listen(PORT, () => console.log(`running successfully ${PORT}`));
