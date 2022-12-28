@@ -1,26 +1,23 @@
-import express from 'express';
-import User from '../model/mongoschema.js';
+import userSchema from '../model/mongoschema.js';
 import jsonwebtoken from 'jsonwebtoken';
-const router = express();
 
-router.post('/signup', async (req, res) => {
-  console.log(req);
+export const newUser = async (req, res) => {
+  console.log(req.body.data);
   try {
-    await User.create({
-      userName: req.body.userName,
-      email: req.body.email,
-      phone: req.body.phone,
-      password: req.body.password,
+    await userSchema.create({
+      userName: req.body.data.userName,
+      email: req.body.data.email,
+      phone: req.body.data.phone,
+      password: req.body.data.password,
     });
     res.json({ status: 'ok' });
   } catch (error) {
     res.json({ status: error });
   }
-});
-
-router.post('/login', async (req, res) => {
+};
+export const logUser = async (req, res) => {
   console.log(req.body);
-  const user = await User.findOne({
+  const user = await userSchema.findOne({
     email: req.body.email,
     password: req.body.password,
   });
@@ -40,5 +37,4 @@ router.post('/login', async (req, res) => {
       message: 'user or password incorrect',
     });
   }
-});
-export default router;
+};
